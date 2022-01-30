@@ -39,7 +39,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 // mongoose connect
-mongoose.connect('mongodb+srv://ayal:ayal@cluster0.h9ztc.mongodb.net/movies?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
     console.log('Connected to DB');
 });
 
