@@ -125,6 +125,17 @@ const deleteUser = asyncHandler((req, res) => {
     })
 })
 
+// delete user favorite movies
+// const deleteUseFavoriteMovies = asyncHandler((req, res) => {
+//     const _id = req.params.id
+//     User.find({ favortieMovies: { $all: [_id] } }, (error, data) => {
+//         if (error) {
+//             console.log(error);
+//         } else {
+//             console.log(data);
+//         }
+//     })
+// })
 
 // google login
 const googleLogin = asyncHandler(async (req, res) => {
@@ -184,5 +195,6 @@ module.exports = {
     getUserById,
     updateUserProfile,
     deleteUser,
-    googleLogin
+    googleLogin,
+    // deleteUseFavoriteMovies
 }
