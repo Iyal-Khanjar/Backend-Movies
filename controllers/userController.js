@@ -28,7 +28,7 @@ const getUserById = asyncHandler((req, res) => {
 
 // register
 const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, pic, isAdmin } = req.body;
+    const { name, email, password, pic, isAdmin, favortieMovies } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -43,6 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
         password,
         pic,
         isAdmin,
+        favortieMovies
     });
 
     if (user) {
@@ -52,6 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
             email: user.email,
             isAdmin: user.isAdmin,
             pic: user.pic,
+            favortieMovies: user.favortieMovies,
             token: generateToken(user._id),
         });
     } else {
@@ -71,6 +73,7 @@ const authUser = asyncHandler(async (req, res) => {
             email: user.email,
             isAdmin: user.isAdmin,
             pic: user.pic,
+            favortieMovies: user.favortieMovies,
             token: generateToken(user._id)
         })
     } else {
@@ -82,11 +85,12 @@ const authUser = asyncHandler(async (req, res) => {
 // update User
 const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
-    const { name, email, password, pic } = req.body;
+    const { name, email, password, pic, favortieMovies } = req.body;
     if (user) {
         user.name = name || user.name;
         user.email = email || user.email;
         user.pic = pic || user.pic;
+        user.favortieMovies = favortieMovies || user.favortieMovies;
         if (password) {
             user.password = password;
         }
@@ -99,6 +103,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             email: updatedUser.email,
             pic: updatedUser.pic,
             isAdmin: updatedUser.isAdmin,
+            favortieMovies: updatedUser.favortieMovies,
             token: generateToken(updatedUser._id),
         });
     } else {
