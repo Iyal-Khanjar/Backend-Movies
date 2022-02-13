@@ -3,7 +3,6 @@ const userRouter = express.Router()
 const { registerUser, authUser, deleteUser, updateUserProfile, allUsersProfile, googleLogin } = require("../controllers/userController.js")
 const { bestActors , funniestActors,bestMovie } = require("../controllers/dataController.js")
 const { protect } = require('../middlewares/authMiddleware')
-// const {getBestMovie} =require('../scraper/bestMovies')
 
 userRouter.route('/allusersprofile').get(allUsersProfile)
 userRouter.route('/register').post(registerUser)
