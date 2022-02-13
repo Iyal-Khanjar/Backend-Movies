@@ -17,11 +17,11 @@ const getData = async (url) =>{
 }
 
 const getBestActors =async () => {
-    const data = await getData('https://www.imdb.com/list/ls051583078/');
+    const data = await getData('https://www.imdb.com/list/ls000004615/');
     return data;
 }
 const getFunniestActors =async () => {
-    const data = await getData('https://www.imdb.com/list/ls000004615/');
+    const data = await getData('https://www.imdb.com/list/ls051583078/');
     return data;
 }
 
