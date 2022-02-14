@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 const getBestMovie =async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://www.imdb.com/chart/top/');
   const search =await page.evaluate(()=>{
