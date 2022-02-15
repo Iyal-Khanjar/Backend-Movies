@@ -1,4 +1,9 @@
 const puppeteer = require('puppeteer');
+const fs =require('fs');
+let {parse} = require('json2csv');
+const path = require('path');
+const schedule = require('node-schedule');
+
 
 const getBestMovie =async () => {
   const browser = await puppeteer.launch();
@@ -13,7 +18,17 @@ const getBestMovie =async () => {
       return names.map((actorName,i)=>({name:actorName,imgUrl:imgs[i],releaseYear:releaseYear[i],link:imdbLinks[i],rating:rating[i]}))
   })
   await browser.close();
-  return search
+  try{
+    const csv = parse(search,{ fields:['name','imgUrl','link','releaseYear','rating'] });
+    fs.writeFileSync(path.normalize(`${__dirname}/../csv/bestMovies.csv`), csv);
+    fs.writeFileSync(path.normalize(`${__dirname}/../json/bestMovies.json`), JSON.stringify(search));
+  }catch(e){
+    console.log(e);
+  }
 }
+schedule.scheduleJob('3 * * * *', function(){
+  console.log('The answer to life, get Best Movie data!');
+  getBestMovie()
+});
 
 module.exports={getBestMovie}
