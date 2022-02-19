@@ -1,4 +1,8 @@
 const puppeteer = require('puppeteer');
+const fs =require('fs');
+let {parse} = require('json2csv');
+const path = require('path');
+const schedule = require('node-schedule');
 
 const getData = async (url) =>{
     const browser = await puppeteer.launch();
@@ -13,16 +17,35 @@ const getData = async (url) =>{
     })
     await browser.close();
     return search;
-
 }
 
 const getBestActors =async () => {
     const data = await getData('https://www.imdb.com/list/ls000004615/');
-    return data;
+    try{
+        const csv = parse(data,{ fields:['name','imgUrl','link','summary'] });
+        fs.writeFileSync(path.normalize(`${__dirname}/../csv/bestActors.csv`), csv);
+        fs.writeFileSync(path.normalize(`${__dirname}/../json/bestActors.json`), JSON.stringify(data));
+      }catch(e){
+        console.log(e);
+      }
 }
 const getFunniestActors =async () => {
     const data = await getData('https://www.imdb.com/list/ls051583078/');
-    return data;
+    try{
+        const csv = parse(data,{ fields:['name','imgUrl','link','summary'] });
+        fs.writeFileSync(path.normalize(`${__dirname}/../csv/funniestActors.csv`), csv);
+        fs.writeFileSync(path.normalize(`${__dirname}/../json/funniestActors.json`), JSON.stringify(data));
+      }catch(e){
+        console.log(e);
+      }
 }
+schedule.scheduleJob('2 * * * *', function(){
+  console.log('The answer to life, get Funniest Actors data!');
+  getFunniestActors()
+});
+schedule.scheduleJob('1 * * * *', function(){
+  console.log('The answer to life, the universe, and everything!');
+  getBestActors()
+});
 
 module.exports = {getBestActors , getFunniestActors}
